@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой профиль</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=6">
+</head>
+<body class="page catalog">
+<div class="menu">
+    <a class="menu-link" href="/show_stadiums">Поля</a>
+    <a class="menu-link" href="/my/">Мои заказанные стадионы</a>
+    <a class="menu-link" href="/games/">Играем вместе</a>
+    <a class="menu-profile" href="/profile/">
+        <img class="avatar" src="{{ request.user.photo.url }}" alt="Мой профиль">
+    </a>
+</div>
+    <div class="profile">
+        <img class="user-photo" src="{{ user.photo.url }}" alt="Фото профиля">
+        
+        <h1>{{ user.username }}</h1>
+        
+        <p class="caption">Email</p>
+        
+        <p>{{ user.email }}</p>
+        
+        <p class="caption">Телефон</p>
+
+        <p>{{ user.phone }}</p>
+
+        <p class="caption">О себе</p>
+        
+        <p class="about">{{ user.about }}</p>
+
+        <a class="back" href="/show_stadiums">К полям →</a>
+        <form action="/logout/" method="post">
+            {% csrf_token %}
+            <button class="button" type="submit">Выйти</button>
+        </form>
+    </div>
+</body>
+</html>

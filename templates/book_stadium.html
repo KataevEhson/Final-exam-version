@@ -1,0 +1,23 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}?v=6">
+
+<div class="menu">
+    <a class="menu-link" href="/show_stadiums">Поля</a>
+    <a class="menu-link" href="/my/">Мои заказанные стадионы</a>
+    <a class="menu-link" href="/games/">Играем вместе</a>
+    <a class="menu-profile" href="/profile/">
+        <img class="avatar" src="{{ request.user.photo.url }}" alt="Мой профиль">
+    </a>
+</div>
+
+<form class="form" method="post">
+    {% csrf_token %}
+
+    <h1>{{ stadium.caption }}</h1>
+    <p>Сколько игроков не хватает? Если никто — введи 0.</p>
+
+    <input class="input" type="number" name="playears_needad" min="0" required>
+
+    <p class="error">{{ error }}</p>
+    <button class="button" type="submit">Забронировать</button>
+</form>

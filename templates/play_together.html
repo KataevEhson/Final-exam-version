@@ -1,0 +1,39 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}?v=6">
+
+<div class="menu">
+    <a class="menu-link" href="/show_stadiums">Поля</a>
+    <a class="menu-link" href="/my/">Мои заказанные стадионы</a>
+    <a class="menu-link" href="/games/">Играем вместе</a>
+    <a class="menu-profile" href="/profile/">
+        <img class="avatar" src="{{ request.user.photo.url }}" alt="Мой профиль">
+    </a>
+</div>
+
+<div class="detail">
+    <a class="back" href="/show_stadiums">← Все поля</a>
+    <h1>Играем вместе</h1>
+
+    {% for booking in book %}
+        <div class="order">
+            <h2>{{ booking.stadium.caption }}</h2>
+            <p>Организатор: {{ booking.user.username }}</p>
+            <p>Нужно игроков: {{ booking.playears_needad }}</p>
+
+            <p>Участники:</p>
+            {% for player in booking.particplant_set.all %}
+                <p>{{ player.user.username }}</p>
+            {% endfor %}
+
+            <form action="/join/{{ booking.id }}/" method="post">
+                {% csrf_token %}
+                <button class="button" type="submit">Вступить в команду</button>
+            </form>
+
+            <form action="/leave/{{ booking.id }}/" method="post">
+                {% csrf_token %}
+                <button class="button" type="submit">Выйти из игры</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>

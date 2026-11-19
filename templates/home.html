@@ -1,0 +1,59 @@
+{% load static %}
+ <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=6">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Футбольные поля</title>
+</head>
+<body class="page catalog">
+<div class="menu">
+    <a class="menu-link" href="/show_stadiums">Поля</a>
+    <a class="menu-link" href="/my/">Мои заказанные стадионы</a>
+    <a class="menu-link" href="/games/">Играем вместе</a>
+    <a class="menu-profile" href="/profile/">
+        <img class="avatar" src="{{ request.user.photo.url }}" alt="Мой профиль">
+    </a>
+</div>
+
+
+<h1 class="title heading">Футбольные поля</h1>
+<form class="search" action="/search/" method="get">
+    <select class="input" name="category">
+        <option value="">Все категории</option>
+
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.title }}</option>
+        {% endfor %}
+        
+    </select>
+    <button class="button" type="submit">Найти</button>
+</form>
+
+<div class="cards">
+    {% for i in stad %}
+        <article class="card">
+            <img class="photo" src="{{ i.image.url }}" alt="{{ i.caption }}" loading="lazy">
+            <div class="info">
+                <p class="category">{{ i.category.title }}</p>
+                
+                <h2 class="name">{{ i.caption }}</h2>
+
+                <p class="address">{{ i.location }}</p>
+
+                <div class="bottom">
+
+                    <p class="price">{{ i.price }} за игру</p>
+                </div>
+                {% if i.is_free %}
+                    <a class="button details" href="/stadium_info/{{ i.id }}/">Подробнее</a>
+                {% endif %}
+            </div>
+        </article>
+    {% endfor %}
+</div>
+
+
+</body>
+</html>

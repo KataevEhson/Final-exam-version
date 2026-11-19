@@ -1,0 +1,30 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}?v=6">
+
+<div class="menu">
+    <a class="menu-link" href="/show_stadiums">Поля</a>
+    <a class="menu-link" href="/my/">Мои заказанные стадионы</a>
+    <a class="menu-link" href="/games/">Играем вместе</a>
+    <a class="menu-profile" href="/profile/">
+        <img class="avatar" src="{{ request.user.photo.url }}" alt="Мой профиль">
+    </a>
+</div>
+
+<div class="detail my-orders">
+    <a class="back" href="/show_stadiums">← Все поля</a>
+    <h1>Мои заказанные стадионы</h1>
+
+    {% for i in book %}
+        <div class="order">
+            <img class="detail-photo" src="{{ i.stadium.image.url }}" alt="{{ i.stadium.caption }}">
+            <h2>{{ i.stadium.caption }}</h2>
+            <p>{{ i.stadium.location }}</p>
+            <p>Цена за игру: {{ i.stadium.price }}</p>
+
+            <form action="/finish/{{ i.id }}/" method="post">
+                {% csrf_token %}
+                <button class="button" type="submit">Закончить игру</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
